@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Javascript Hangman (Beta)</title>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-19082249-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<link rel="stylesheet" type="text/css" href="hangman.css">
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript" src="js/hangman.js"></script>
+</head>
+
+<body onLoad="dgame=new Game();puzzleMe()">
+<div id="dump"></div>
+<div id="filter"></div>
+
+<div id="hover">
+<div id="loading"><h1>Loading puzzle...</h1></div>
+<div id="saving"><h1>Saving...</h1></div>
+<div id="thanks"><h1>Thanks!</h1><p>We'll include your puzzle in the next day or two after we've reviewed it for accuracy.</p><form name="continue" id="continue" action="noscript.html" method="post" onSubmit="puzzleMe();return false;"><input type="submit" name="continue" value="continue"></form></div>
+<div id="contribute"><h1>Contribute a puzzle</h1>
+<p>Winners have the honor of adding new puzzles!</p>
+<form name="contributeForm" method="post" action="/hangman/contribute.php" onSubmit="contribute(this.newPuzzleCategory.value,this.newPuzzleWords.value,this.pref.checked); return false;">
+<div>
+<label for="newPuzzleCategory">Category:</label>
+<div class="fInput">
+<select name="newPuzzleCategory" id="newPuzzleCategory">
+<option value="Books">Books</option>
+<option value="Movies">Movies</option>
+<option value="People">People</option>
+<option value="Places">Places</option>
+<option value="TV Shows">TV Shows</option>
+</select>
+</div>
+</div>
+<div><label for="newPuzzleWords">Puzzle:</label><div class="fInput"><input type="Text" id="newPuzzleWords" name="newPuzzleWords"></div></div>
+<div><input type="Submit" name="send" value="contribute puzzle"> <input type="submit" name="nothanks" value="no thanks"></div>
+<div id="preference"><input type="checkbox" name="pref" id="pref" value="I don't feel like contributing today..."> Don't bug me, I just want to play!</div>
+</form>
+</div>
+</div>
+
+<div id="game">
+
+<div id="message"></div>
+<div id="gallows"></div>
+<div id="triesLeft"></div>
+<div id="guessedLetters"></div>
+
+<form onSubmit="dgame.checkGuess();return false">
+<fieldset>
+<legend id="category"></legend>
+<div id="word"></div>
+</fieldset>
+<fieldset id="guess">
+<legend>Guess a Letter</legend>
+<input type="text" name="tryit" id="tryit" size="1" maxlength="1" onkeyup="dgame.checkGuess(this.value)"><!--<input type="submit" value="try it">--> 
+<!-- <input type="button" value="I know the answer!" onClick="game.checkSolution()"> -->
+(You can also click the letters listed above.)
+</fieldset>
+
+<fieldset id="solve">
+<legend>Solve It!</legend>
+<input type="text" name="solution" id="solution" size="50"> <input type="button" value="Solve It!" onClick="dgame.checkSolution()">
+</fieldset>
+</form>
+</div>
+<p id="credits">e-mail suggestions to <a href="chris@osric.com">chris@osric.com</a></p>
+</body>
+</html>
