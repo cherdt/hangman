@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
             ORDER BY id DESC";
 
     // Run query
-    $result = mysql->query($sql);
+    $result = $mysqli->query($sql);
 
     echo "<p>There are currently <strong><em>" . $result->num_rows . "</em></strong> unapproved puzzle entries</p>";
 

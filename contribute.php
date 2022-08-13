@@ -40,10 +40,10 @@ if ($_GET['c'] != '' && $_GET['w'] != '' ) {
     $stmt = $mysqli->prepare("INSERT INTO puzzle
                               (category, words, approved, points, plays, wins)
                               VALUES
-                              (?, ?, ?, ?, ?, ?)");
+                              (?, ?, 'N', ?, 0, 0)");
 
     // Bind the variables
-    $stmt->bind_param('sssiii', $category, $puzzle, 'N', $points, 0, 0);
+    $stmt->bind_param('ssi', $category, $puzzle, $points);
     // Execute the SQL statement
     $stmt->execute();
     // Close the statement

@@ -28,17 +28,20 @@ if ( $_GET['id'] != '' && is_numeric($_GET['id']) && ( $_GET['method'] == 'wins'
     $column = $_GET['method'];
     
     // SELECT the current data
-    $stmt = $mysqli->prepare("SELECT ?
+    $stmt = $mysqli->prepare("SELECT $column 
                               FROM puzzle
-                              WHERE id = ?";
-    $stmt->bind_param('si', $column, $id);
+                              WHERE id = ?");
+    $stmt->bind_param('i', $id);
 
     // Run SELECT query
     $result = $stmt->execute();
 
+    // Bind results
+    $stmt->bind_result($row_item);
+
     // Set update value
-    while ($myrow = $mysqli->fetch_assoc()) {
-        $value = $myrow[$column]+1;
+    while ($stmt->fetch()) {
+        $value = $row_item+1;
     }
 
     // Close statement
@@ -46,9 +49,9 @@ if ( $_GET['id'] != '' && is_numeric($_GET['id']) && ( $_GET['method'] == 'wins'
                 
     // Set SQL query
     $stmt = $mysqli->prepare("UPDATE puzzle
-                              SET ? = ?
+                              SET $column = ?
                               WHERE id = ?");
-    $stmt->bind_param('sii', $column, $value, $id);
+    $stmt->bind_param('ii', $column, $value, $id);
 
     // Run UPDATE query
     $result = $stmt->execute();

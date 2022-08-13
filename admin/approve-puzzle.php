@@ -19,8 +19,8 @@ if ($_GET['method'] == 'update' && is_numeric($_GET['id']) ) {
     // Run UPDATE query
     $result = $stmt->execute();
 
-    $stmt.close();
-    $mysqli.close()
+    $stmt->close();
+    $mysqli->close();
 }
 
 //echo the XML declaration
