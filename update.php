@@ -3,6 +3,7 @@
 sleep(2);
  
 //include any libraries you want to use here.
+include 'db.php';
  
 //Set the content-type header to xml
 header("Content-type: text/xml");
@@ -16,32 +17,41 @@ if ( $_GET['id'] != '' && is_numeric($_GET['id']) && ( $_GET['method'] == 'wins'
     $id = $_GET['id'];
 
     // Set DB info
-    $db = mysql_connect("localhost", "dbuser","hunter2");
-    mysql_select_db("hangman",$db);
+    $mysqli = new mysqli($db_host, $db_username, $db_password, $db_name);
+
+    // Check DB connection
+    if ($mysqli->connect_errno) {
+        echo("Failed to connect to database: " . $mysqli->connect_error);
+    }
     
     // Set column info
     $column = $_GET['method'];
     
     // SELECT the current data
-    $sql = "SELECT $column
-            FROM puzzle
-            WHERE id = $id";
-    
+    $stmt = $mysqli->prepare("SELECT ?
+                              FROM puzzle
+                              WHERE id = ?";
+    $stmt->bind_param('si', $column, $id);
+
     // Run SELECT query
-    $result = mysql_query($sql,$db);
-    
+    $result = $stmt->execute();
+
     // Set update value
-    while ($myrow = mysql_fetch_assoc($result)) {
+    while ($myrow = $mysqli->fetch_assoc()) {
         $value = $myrow[$column]+1;
     }
+
+    // Close statement
+    $stmt->close();
                 
     // Set SQL query
-    $sql = "UPDATE puzzle
-            SET $column = $value
-            WHERE id = $id";
-    
+    $stmt = $mysqli->prepare("UPDATE puzzle
+                              SET ? = ?
+                              WHERE id = ?");
+    $stmt->bind_param('sii', $column, $value, $id);
+
     // Run UPDATE query
-    $result = mysql_query($sql,$db);
+    $result = $stmt->execute();
     
     $status = "success";
 }

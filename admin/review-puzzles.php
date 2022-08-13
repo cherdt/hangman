@@ -24,49 +24,54 @@
 <h1>Hangman: Review User-Submitted Puzzles</h1>
 
 <?php
-if ($_SERVER['REQUEST_METHOD']=='POST') {
-  // process form
+//include any libraries you want to use here.
+require '../db.php';
 
-  $db = mysql_connect("localhost", "dbuser", "hunter2");
-  mysql_select_db("hangman",$db);
-  $id = $_POST['id'];
-  $method = $_POST['method'];
-  if ( is_numeric($id) ) {
-    if ($method=='delete') {
-        $sql = "DELETE FROM puzzle WHERE id = $id";
-        $msg = "Entry deleted.";
+// Set up database connection
+$mysqli = new mysqli($db_host, $db_username, $db_password, $db_name);
+
+
+if ($_SERVER['REQUEST_METHOD']=='POST') {
+    // process form
+
+    $id = $_POST['id'];
+    $method = $_POST['method'];
+    if ( is_numeric($id) ) {
+        if ($method=='delete') {
+            $stmt = $mysqli->prepare("DELETE FROM puzzle WHERE id = ?");
+            $msg = "Entry deleted.";
+        } else {
+            $stmt = $mysqli->prepare("UPDATE puzzle SET approved = 'Y' WHERE id = ?");
+            $msg = "Entry approved.";
+        }
+        $stmt->bind_param('i', $id);
+        $result = $stmt->execute();
+        $stmt->close();
+        echo '<div id="results">'. $msg .'</div>';
     } else {
-        $sql = "UPDATE puzzle SET approved = 'Y' WHERE id = $id;";
-        $msg = "Entry approved.";
+        printf("The specified ID, %s, is not valid.",$id);
     }
-    $result = mysql_query($sql) or die("sql error:" . $sql);
-    echo '<div id="results">'. $msg .'</div>';
-    // echo "Thank you! Entry approved.\n";
-  } else {
-    printf("The specified ID, %s, is not valid.",$id);
-  }
 }
 
  
     // display form
     echo "<h2>Approve Entries</h2>";
 
-    // Set up DB
-    $db = mysql_connect("localhost", "dbuser", "hunter2");
-    mysql_select_db("hangman",$db);
-
     // Create SQL statement
-    $sql = "SELECT id,category,words,points FROM puzzle WHERE approved = 'N' ORDER BY id DESC";
+    $sql = "SELECT id, category, words, points
+            FROM puzzle
+            WHERE approved = 'N'
+            ORDER BY id DESC";
 
     // Run query
-    $result = mysql_query($sql) or die("SQL error");
+    $result = mysql->query($sql);
 
-    echo "<p>There are currently <strong><em>" . mysql_num_rows($result) . "</em></strong> unapproved puzzle entries</p>";
+    echo "<p>There are currently <strong><em>" . $result->num_rows . "</em></strong> unapproved puzzle entries</p>";
 
     // Display results, if there are any
-    if (mysql_num_rows($result) > 0) {
+    if ($result->num_rows > 0) {
         $rowCount = 0;
-        while ($myrow = mysql_fetch_assoc($result)) {
+        while ($myrow = $result->fetch_assoc()) {
             $rowCount++;
             if ($rowCount % 2) {
                 $rowClass = "row";
@@ -89,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
             echo '</div>';
         }
     }
-
+    $mysqli->close();
 ?>
 
 

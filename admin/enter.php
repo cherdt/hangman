@@ -15,6 +15,8 @@
 <h1>Hangman - Enter a new puzzle</h1>
 
 <?php
+// Include database settings
+require '../db.php';
 // Include scripts to calculate Scrabble score
 require '../scrabble-score.php';
 
@@ -34,17 +36,17 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     $points = get_scrabble_score($puzzle);
     
     // Setup DB connection
-    $db = mysql_connect("localhost", "dbuser", "hunter2");
-    mysql_select_db("hangman",$db);
+    $mysqli = new mysqli($db_host, $db_username, $db_password, $db_name);
 
     // Define SQL statement
-    $sql = "INSERT INTO puzzle
-            (category, words, approved, points, plays, wins)
-            VALUES
-            ('$category','$puzzle','N',$points,0,0);";
+    $stmt = $mysqli->prepare("INSERT INTO puzzle
+                              (category, words, approved, points, plays, wins)
+                              VALUES
+                              (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param('sssiii', $category, $puzzle, 'N', $points, 0, 0);
 
     // Run SQL INSERT statement
-    $result = mysql_query($sql) or die("sql error");
+    $result = $stmt->execute();
 
     // Print thank you note
     echo "Thank you! We'll review your puzzle suggestion in the next day or two.</p>\n";
