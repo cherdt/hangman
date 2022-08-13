@@ -2,20 +2,20 @@
 /* CSS Document */
 
 #results {
-	border:1px solid orange;
-	background-color:#FFC;
-	padding:.5em;
+    border:1px solid orange;
+    background-color:#FFC;
+    padding:.5em;
 }
 form { display:inline }
 div.row,
 div.rowAlt {
-	padding:.5em;
+    padding:.5em;
 }
 div.row {
-	background-color:#eee;
-	border:1px solid #ccc;
+    background-color:#eee;
+    border:1px solid #ccc;
 }
 div.rowAlt {
-	background-color:#ddd;
-	border:1px solid #999;
+    background-color:#ddd;
+    border:1px solid #999;
 }
