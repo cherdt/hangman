@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     $puzzle = ereg_replace("[^A-Za-z\,\-\'\:\;\"\?\!\& ]"," ",$_POST['words']);
 
     // Print feedback
-    printf('<p id="results">Puzzle: <strong>%s</strong><br>',$puzzle);
+    printf('<p id="results">Puzzle: <strong>%s</strong><br>', htmlentities($puzzle));
 
     // Call function to calculate the Scrabble score of this puzzle
     $points = get_scrabble_score($puzzle);

@@ -4,7 +4,7 @@ require '../db.php';
 
 // Check to see that we received the expected, non-NULL, inputs
 if ($_GET['method'] == 'update' && is_numeric($_GET['id']) ) {
-    $id = $_GET['id'];
+    $id = htmlentities($_GET['id']);
     $msg = "Entry approved.";
 
     // Set up DB connection

@@ -26,7 +26,7 @@ $result = $mysqli->query($sql);
 
 while ($myrow = $result->fetch_assoc()) {
     // Write XML output to the page
-    printf("<puzzles><puzzle><id>%s</id><category>%s</category><words>%s</words></puzzle></puzzles>",$myrow['id'],$myrow['category'],$myrow['words']);
+    printf("<puzzles><puzzle><id>%s</id><category>%s</category><words>%s</words></puzzle></puzzles>", $myrow['id'], htmlentities($myrow['category']), htmlentities($myrow['words']));
 
     // Update times played data
     $plays = $myrow['plays'] + 1;

@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         $stmt->close();
         echo '<div id="results">'. $msg .'</div>';
     } else {
-        printf("The specified ID, %s, is not valid.",$id);
+        printf("The specified ID, %s, is not valid.", htmlentities($id));
     }
 }
 
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
                 <input type="hidden" name="id" value="%s">
                 <input type="hidden" name="method" value="delete">
                 <input type="submit" name="delete" value="delete">
-            </form>',$_SERVER['PHP_SELF'],$myrow['id'],$myrow['id'],$myrow['category'],ereg_replace(" ", "+", $myrow['words']),$myrow['words'],$myrow['points'],$_SERVER['PHP_SELF'],$myrow['id'],$myrow['id']);
+            </form>', $_SERVER['PHP_SELF'], $myrow['id'], $myrow['id'], htmlentities($myrow['category']), ereg_replace(" ", "+", htmlentities($myrow['words'])), htmlentities($myrow['words']), $myrow['points'], $_SERVER['PHP_SELF'], $myrow['id'], $myrow['id']);
             echo '</div>';
         }
     }
