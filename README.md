@@ -21,13 +21,13 @@ Copy `db.php.EXAMPLE` to `db.php` and replace the values as needed.
 
 Currently, there is only one table, `puzzle`, with the following fields:
 
-* id - int(10) [primary key]
-* category - varchar(50)
-* words - varchar(250)
-* approved - char(1)
-* points - int(10)
-* plays - int(10)
-* wins - int(10)
+* `id` - int(10) [primary key]
+* `category` - varchar(50)
+* `words` - varchar(250)
+* `approved` - char(1)
+* `points` - int(10)
+* `plays` - int(10)
+* `wins` - int(10)
 
 Notes:
 
