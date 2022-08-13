@@ -11,7 +11,7 @@ This code is largely unchanged since the app was initially launched in 2007, and
 * updated the database calls to use `mysqli` and prepared statements/bind parameters
 * used `htmlentities()` to escape output
 
-There is a lot of terrible PHP here and many, many improvements that could be made.
+There is a lot of terrible PHP here and many, many improvements could be made.
 
 ## Database Credentials
 
@@ -31,7 +31,7 @@ Currently, there is only one table, `puzzle`, with the following fields:
 
 Notes:
 
-* Yes, `category` should have been its own table
+* `category` should have been its own table for database normalization
 * `points` is based on the Scrabble score of the puzzle, a general gauge of how difficult it might be
 * `plays` and `wins` are to track statistics about each puzzle, to find out which are more challenging than others
 
