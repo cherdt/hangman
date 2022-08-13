@@ -1,5 +1,10 @@
 # Hangman Game
 
+This is the classic hangman game with a couple of additions:
+
+* Users can submit their own puzzles after 5 wins
+* An admin tool allows authorized users to review and approve user-submitted puzzles
+
 This code is largely unchanged since the app was initially launched in 2007, and this was one of my first projects using PHP. I have made the following changes to the code since then:
 
 * moved database credentials to a separate file: `db.php`
