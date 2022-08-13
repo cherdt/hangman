@@ -11,3 +11,31 @@ There is a lot of terrible PHP here and many, many improvements that could be ma
 ## Database Credentials
 
 Copy `db.php.EXAMPLE` to `db.php` and replace the values as needed.
+
+## Database Schema
+
+Currently, there is only one table, `puzzle`, with the following fields:
+
+* id - int(10) [primary key]
+* category - varchar(50)
+* words - varchar(250)
+* approved - char(1)
+* points - int(10)
+* plays - int(10)
+* wins - int(10)
+
+Notes:
+
+* Yes, `category` should have been its own table
+* `points` is based on the Scrabble score of the puzzle, a general gauge of how difficult it might be
+* `plays` and `wins` are to track statistics about each puzzle, to find out which are more challenging than others
+
+## Admin Tools
+
+Currently I have the admin tools protected via `.htaccess` and `.htpasswd` files. The `.htaccess` file looks similar to this:
+
+    AuthUserFile /absolute/path/to/.htpasswd
+    AuthType Basic
+    AuthName "Hangman Admin Tools"
+    Require valid-user
+
